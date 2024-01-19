@@ -7,7 +7,12 @@ import Button from './components/Button';
 
 const backgroundImage = require('./assets/images/background-image.png')
 
+// react
+import { useState } from 'react';
+
 export default function App() {
+  const [selectedImage, setSelectedImage] = useState(null)
+
   const pickImageAsync = async()=>{
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -15,6 +20,7 @@ export default function App() {
     })
 
     if(!result.canceled){
+      setSelectedImage(result.assets[0].uri)
       console.log(result)
     } else {
       alert('YOU DID NOT SELECT AN IMAGE')
@@ -23,7 +29,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-      <ImageViewer placeHolderImageSrc={backgroundImage}/>
+      <ImageViewer placeHolderImageSrc={backgroundImage}
+      selectedImage={selectedImage}
+      />
       </View>
 
       <View style={styles.footerContainer}>
