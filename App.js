@@ -9,6 +9,7 @@ import CircleButton from './components/CircleButton';
 import Iconbutton from './components/IconButton';
 import EmojiPicker from './components/EmojiPicker';
 import EmojiList from './components/EmojiList';
+import EmojiSticker from './components/EmojiSticker';
 
 /// defult image
 const backgroundImage = require('./assets/images/background-image.png')
@@ -64,6 +65,8 @@ export default function App() {
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose}/>
       </EmojiPicker>
+
+      {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/>}
       </View>
       
       {showAppOptions ? (
