@@ -7,6 +7,7 @@ import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
 import CircleButton from './components/CircleButton';
 import Iconbutton from './components/IconButton';
+import EmojiPicker from './components/EmojiPicker';
 
 /// defult image
 const backgroundImage = require('./assets/images/background-image.png')
@@ -15,6 +16,7 @@ const backgroundImage = require('./assets/images/background-image.png')
 import { useState } from 'react';
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const [showAppOptions, setShowAppOptions] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
@@ -38,7 +40,12 @@ export default function App() {
   }
 
   const onAddSticker = ()=>{
+    setIsModalVisible(true)
 
+  }
+
+  const onModalClose = ()=>{
+    setIsModalVisible(false)
   }
 
   const onSaveImageAsync = async()=>{
@@ -51,6 +58,9 @@ export default function App() {
       <ImageViewer placeHolderImageSrc={backgroundImage}
       selectedImage={selectedImage}
       />
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+        
+      </EmojiPicker>
       </View>
       
       {showAppOptions ? (
