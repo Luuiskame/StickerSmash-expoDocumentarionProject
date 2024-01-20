@@ -8,6 +8,7 @@ import Button from './components/Button';
 import CircleButton from './components/CircleButton';
 import Iconbutton from './components/IconButton';
 import EmojiPicker from './components/EmojiPicker';
+import EmojiList from './components/EmojiList';
 
 /// defult image
 const backgroundImage = require('./assets/images/background-image.png')
@@ -16,6 +17,7 @@ const backgroundImage = require('./assets/images/background-image.png')
 import { useState } from 'react';
 
 export default function App() {
+  const [pickedEmoji, setPickedEmoji] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showAppOptions, setShowAppOptions] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -40,6 +42,7 @@ export default function App() {
   }
 
   const onAddSticker = ()=>{
+    console.log("hola")
     setIsModalVisible(true)
 
   }
@@ -59,7 +62,7 @@ export default function App() {
       selectedImage={selectedImage}
       />
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-        
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose}/>
       </EmojiPicker>
       </View>
       
