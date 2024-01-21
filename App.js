@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,  } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 
 //? components
@@ -57,7 +58,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer}>
       <ImageViewer placeHolderImageSrc={backgroundImage}
       selectedImage={selectedImage}
@@ -85,7 +86,7 @@ export default function App() {
       )}
       
       <StatusBar style="auto" />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
