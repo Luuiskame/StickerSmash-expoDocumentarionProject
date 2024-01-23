@@ -1,3 +1,12 @@
+// users permission 
+import * as MediaLibrary from 'expo-media-library'
+
+//take a screenshot library: provies a method called captureRef() that captures a screenshot fo a <View> in the app and returns the URI of the screeenshot image file
+import { captureRef } from 'react-native-view-shot';
+
+//! those libraries work only with Android and IOS
+
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,  } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -16,9 +25,19 @@ import EmojiSticker from './components/EmojiSticker';
 const backgroundImage = require('./assets/images/background-image.png')
 
 // react
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function App() {
+  //permissions
+  const [status, resquestPermission] = MediaLibrary.usePermissions()
+
+  if(!status){
+    resquestPermission()
+  }
+
+  //use ref hook for refering where is the image when taking a screenshot
+  const imageRef = useRef()
+
   const [pickedEmoji, setPickedEmoji] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showAppOptions, setShowAppOptions] = useState(false)
@@ -54,15 +73,30 @@ export default function App() {
   }
 
   const onSaveImageAsync = async()=>{
-    
+    try {
+      const localUri = await captureRef(imageRef, {
+        height: 440,
+        quality: 1,
+      });
+
+      await MediaLibrary.saveToLibraryAsync(localUri)
+      if(localUri){
+        alert("Saved!")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer}>
+        <View ref={imageRef} collapsable={false}> {/* The collapsable prop is set to false in the above snippet because this <View> component is used to take a screenshot of the background image and the emoji sticker. The rest of the contents of the app screen (such as buttons) are not part of the screenshot. */}
       <ImageViewer placeHolderImageSrc={backgroundImage}
-      selectedImage={selectedImage}
-      />
+        selectedImage={selectedImage}
+        />
+        </View>
+      
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose}/>
       </EmojiPicker>
